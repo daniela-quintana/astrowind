@@ -26,6 +26,12 @@ app.get('/api/posts', async (req, res) => {
   res.json(posts);
 });
 
+app.get('/api/posts/:id', async (req, res) => {
+  const reqId = req.params.id;
+  const post = await BlogPost.findById(reqId);
+  res.json(post)
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

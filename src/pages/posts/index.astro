@@ -19,14 +19,13 @@ function getDate() {
 }
 
 const today = getDate();
-const image =
-  'https://images.contentstack.io/v3/assets/blt7151619cb9560896/bltc5d9ef93ba10b521/645a1689ddeef24daa14c071/shell-hero.svg';
+
 ---
 
 <Layout>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
     <Headline
-      subtitle="Blog para Nico"
+      subtitle="Descripción del blog"
     >
       Blog
     </Headline>
@@ -34,16 +33,16 @@ const image =
       <li class="mb-12 md:mb-20">
         {
           data.map((item) => (
-            <article class={`max-w-md mx-auto md:max-w-none pb-10 ${image ? 'md:grid-cols-2' : ''}`}>
-                {image && (
+            <article class={`max-w-md mx-auto md:max-w-none pb-10 ${item.image ? 'md:grid-cols-2' : ''}`}>
+                {item.image && (
                   <a class="relative block group" href={`/posts/${item._id}` ?? 'javascript:void(0)'}>
                     <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
-                      {image && (
+                      {item.image && (
                         <Image
-                          src={image}
+                          src={item.image}
                           class="absolute inset-0 object-cover w-full h-full mb-6 rounded shadow-lg bg-gray-400 dark:bg-slate-700"
                           widths={[400, 900]}
-                          width={900}
+                          width={1200}
                           sizes="(max-width: 900px) 400px, 900px"
                           alt="alt"
                           aspectRatio="16:9"

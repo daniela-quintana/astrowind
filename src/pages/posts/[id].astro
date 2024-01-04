@@ -2,33 +2,44 @@
 import Layout from "../../layouts/Layout.astro";
 import Image from '../../components/common/Image.astro';
 import { Icon } from 'astro-icon/components';
-import { getData } from '../../../server/database';
+import { getData, getId } from '../../../server/database';
+import Headline from '../../components/blog/Headline.astro';
 
-const data = await getData();
 
+//lo que hace, al compilar, automaticamente va buscar la información y te la entrega, y crea la página.
 export async function getStaticPaths() {
-    const post = await getData();
 
-    return post.map((post) => ({
-        params: { id: post._id },
-    }));
-}
+    const posts = await getData();
 
-const image =
-  'https://images.contentstack.io/v3/assets/blt7151619cb9560896/bltc5d9ef93ba10b521/645a1689ddeef24daa14c071/shell-hero.svg';
+    return posts.map((post) => ({
+        params: {
+            id: post._id,
+         },
+        }));
+    }
+
+    const { id } = Astro.params;
+    const post = await getId(id)
+    console.log(post)
 
 ---
 
 <Layout>
-    <article class={`max-w-md mx-auto md:max-w-none pb-10 ${image ? 'md:grid-cols-2' : ''}`}>
-        {image && (
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+    <Headline
+      subtitle="Blog para Nico"
+    >
+      Blog
+    </Headline>
+    <article class={`max-w-md mx-auto md:max-w-none pb-10 ${post.image ? 'md:grid-cols-2' : ''}`}>
+        {post.image && (
             <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
-              {image && (
+              {post.image && (
                 <Image
-                  src={image}
+                  src={post.image}
                   class="absolute inset-0 object-cover w-full h-full mb-6 rounded shadow-lg bg-gray-400 dark:bg-slate-700"
                   widths={[400, 900]}
-                  width={900}
+                  width={1200}
                   sizes="(max-width: 900px) 400px, 900px"
                   alt="alt"
                   aspectRatio="16:9"
@@ -49,9 +60,9 @@ const image =
             </div>
 
             <h2 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
-                  <!-- {item.title} -->
+               {post.title}
             </h2>
-            <!-- <p class="flex-grow text-muted dark:text-slate-400 text-lg">{item.description}</p> -->
+            <p class="flex-grow text-muted dark:text-slate-400 text-lg">{post.description}</p>
           </header>
           <footer class="mt-5" />
         </div>
