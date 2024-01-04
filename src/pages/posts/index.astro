@@ -7,23 +7,18 @@ import Headline from '../../components/blog/Headline.astro';
 import { getData } from '../../../server/database';
 
 const data = await getData();
-console.log(data);
 
 function getDate() {
-  const fechaActual = new Date();
-  const dia = fechaActual.getDate();
-  const mes = fechaActual.getMonth() + 1; 
-  const año = fechaActual.getFullYear();
+  const actualDate = new Date();
+  const day = actualDate.getDate();
+  const month = actualDate.getMonth() + 1; 
+  const year = actualDate.getFullYear();
+  const formatDate = `${day}/${month}/${year}`;
 
-  const fechaFormateada = `${dia}/${mes}/${año}`;
-
-  return fechaFormateada;
+  return formatDate;
 }
 
-const fechaHoy = getDate();
-
-
-const link = 'https://www.google.com';
+const today = getDate();
 const image =
   'https://images.contentstack.io/v3/assets/blt7151619cb9560896/bltc5d9ef93ba10b521/645a1689ddeef24daa14c071/shell-hero.svg';
 ---
@@ -41,7 +36,7 @@ const image =
           data.map((item) => (
             <article class={`max-w-md mx-auto md:max-w-none pb-10 ${image ? 'md:grid-cols-2' : ''}`}>
                 {image && (
-                  <a class="relative block group" href={link ?? 'javascript:void(0)'}>
+                  <a class="relative block group" href={`/posts/${item._id}` ?? 'javascript:void(0)'}>
                     <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
                       {image && (
                         <Image
@@ -64,21 +59,17 @@ const image =
                     <div class="mb-1">
                       <span class="text-sm">
                         <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
-                        <time datetime={String(fechaHoy)} class="inline-block">{getDate()}</time>
+                        <time datetime={String(today)} class="inline-block">{getDate()}</time>
                       </span>
                     </div>
 
                     <h2 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
-                      {link ? (
                         <a
                           class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200"
-                          href={link}
+                          href={`/posts/${item._id}`}
                         >
                           {item.title}
                         </a>
-                      ) : (
-                        item.title
-                      )}
                     </h2>
                     <p class="flex-grow text-muted dark:text-slate-400 text-lg">{item.description}</p>
                   </header>
