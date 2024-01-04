@@ -19,6 +19,9 @@ export interface Post {
   /**  */
   title: string;
   /** Optional summary of post content. */
+
+  // description: string;
+
   excerpt?: string;
   /**  */
   image?: ImageMetadata | string;

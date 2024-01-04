@@ -17,15 +17,13 @@ const blogSchema = new mongoose.Schema({
 
 const BlogPost = mongoose.model('BlogPost', blogSchema);
 
+// Ruta para la página principal
+app.use('/', express.static('dist/index.html'));
+
 // Ruta para obtener todos los posts
 app.get('/api/posts', async (req, res) => {
   const posts = await BlogPost.find();
   res.json(posts);
-});
-
-// Ruta para la página principal
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/src/index.astro');
 });
 
 app.listen(port, () => {
