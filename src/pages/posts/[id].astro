@@ -5,12 +5,9 @@ import { Icon } from 'astro-icon/components';
 import { getData, getId } from '../../../server/database';
 import Headline from '../../components/blog/Headline.astro';
 
-
-//lo que hace, al compilar, automaticamente va buscar la información y te la entrega, y crea la página.
 export async function getStaticPaths() {
 
     const posts = await getData();
-
     return posts.map((post) => ({
         params: {
             id: post._id,
@@ -20,7 +17,6 @@ export async function getStaticPaths() {
 
     const { id } = Astro.params;
     const post = await getId(id)
-    console.log(post)
 
 ---
 
